@@ -1,8 +1,7 @@
 #include "SpawningSystem/Spawnable.h"
 
-#include "EntitySystem/MovieSceneEntitySystemRunner.h"
-
 const TSubclassOf<AActor> USpawnable::GetSpawnableClass() const
 {
+	int32 Test = 0;
 	return SpawnableClass;
 }

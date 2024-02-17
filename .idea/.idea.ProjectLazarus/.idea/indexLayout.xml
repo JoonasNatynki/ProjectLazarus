@@ -2,7 +2,12 @@
 <project version="4">
   <component name="UserContentModel">
     <attachedFolders />
-    <explicitIncludes />
+    <explicitIncludes>
+      <Path>Plugins/COVPlugins</Path>
+      <Path>Source/ProjectLazarus/Private/SpawningSystem/Spawnable.cpp</Path>
+      <Path>Source/ProjectLazarus/Private/SpawningSystem/Spawnable.h</Path>
+      <Path>Source/ProjectLazarus/Public</Path>
+    </explicitIncludes>
     <explicitExcludes />
   </component>
 </project>
