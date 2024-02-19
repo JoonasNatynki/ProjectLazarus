@@ -11,7 +11,7 @@ void USpawnablePoolComponent::AddSpawnableToPool(const TSubclassOf<USpawnable> S
 	SpawnablesPool.AddUnique(Spawnable);
 }
 
-TSubclassOf<USpawnable> USpawnablePoolComponent::GetRandomValidSpawnable() const
+TSubclassOf<USpawnable> USpawnablePoolComponent::GetRandomValidSpawnableFromPool() const
 {
 	const int32 Range = SpawnablesPool.Num();
 	const int32 Rand = FMath::RandRange(0, Range - 1);

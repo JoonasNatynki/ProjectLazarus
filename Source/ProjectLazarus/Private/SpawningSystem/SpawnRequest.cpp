@@ -19,7 +19,7 @@ FSpawnRequest::FSpawnRequest(
 
 FSpawnRequest::FSpawnRequest(const USpawnerComponent* SpawnerComponent, const TSubclassOf<USpawnable> InSpawnable)
 {
-	if (!ensureAlways(IsValid(SpawnerComponent)))
+	if (!ensureAlways(IsValid(SpawnerComponent)) || !ensureAlways(IsValid(InSpawnable)))
 	{
 		return;
 	}

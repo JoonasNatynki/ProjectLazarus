@@ -21,7 +21,7 @@ public:
 	void AddSpawnableToPool(const TSubclassOf<USpawnable> Spawnable);
 
 	UFUNCTION(Category = "Spawnable", BlueprintCallable, BlueprintPure)
-	TSubclassOf<USpawnable> GetRandomValidSpawnable() const;
+	TSubclassOf<USpawnable> GetRandomValidSpawnableFromPool() const;
 
 	UPROPERTY(Category = "Spawnable", EditAnywhere)
 	TArray<TSubclassOf<USpawnable>> SpawnablesPool;
