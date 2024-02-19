@@ -13,20 +13,29 @@ struct FSpawnRequest
 	GENERATED_BODY()
 
 	FSpawnRequest() {}
-	explicit FSpawnRequest(const TSubclassOf<USpawnable> Spawnable);
-	explicit FSpawnRequest(const TSubclassOf<AActor> Class);
-	explicit FSpawnRequest(const USpawnerComponent* SpawnerComponent);
+	explicit FSpawnRequest(
+		const TSubclassOf<USpawnable>& InSpawnable,
+		const FTransform& InSpawnTransform,
+		const FActorSpawnParameters& InSpawnParameters = FActorSpawnParameters(),
+		const bool InbRecordSpawnData = true,
+		const bool InbTryToAdjustForEncroachingGeometry = false
+		);
+	explicit FSpawnRequest(const USpawnerComponent* SpawnerComponent, const TSubclassOf<USpawnable> InSpawnable);
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSubclassOf<AActor> ActorClassToSpawn;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient)
+	TSubclassOf<USpawnable> Spawnable;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient)
 	FTransform SpawnTransform;
 	
 	FActorSpawnParameters SpawnParameters;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient)
 	bool bRecordSpawnData = true;
+	
+	bool bTryToAdjustForEncroachingGeometry = false;
 
 	const FString ToString() const;
+	
+	TWeakObjectPtr<UObject> Instigator = nullptr;
 };

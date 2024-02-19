@@ -16,16 +16,34 @@ class USpawnerComponent : public USceneComponent
 public:	
 	USpawnerComponent();
 
+	// If true will try to use the spawnable shapes as spawn locations
 	UPROPERTY(Category = "Spawner", EditAnywhere)
-	TSubclassOf<USpawnable> Spawnable;
-	
-	UPROPERTY(Category = "Spawner", EditAnywhere)
-	bool bAutoSpawn = false;
+	bool bUseSpawnableShapes = true;
 
-	UFUNCTION(BlueprintCallable)
+	// If true, will try to find a surface beneath th spawn point to place the spawnable onto
+	UPROPERTY(Category = "Spawner", EditAnywhere)
+	bool bTryFindSurfaceToPlace = true;
+	
+	// If encroaching on geometry, try to adjust to a free location from it
+	UPROPERTY(Category = "Spawner", EditAnywhere)
+	bool bTryToAdjustForEncroachingGeometry = true;
+
+	UFUNCTION(Category = "Spawner", BlueprintCallable)
+	void SpawnSpawnable(const TSubclassOf<USpawnable> Spawnable);
+	
+	UFUNCTION(Category = "Spawner", BlueprintCallable)
 	void Spawn(const FSpawnRequest SpawnRequest) const;
 
-protected:
+	// Use this to add custom shape components for the shape spawning
+	UFUNCTION(Category = "Spawner", BlueprintCallable)
+	void AddSpawnableShape(const UShapeComponent* ShapeComponent);
+	
+	bool HasSpawnableShapes() const;
 
-	void BeginPlay() override;
+protected:
+	virtual void BeginPlay() override;
+
+	// The shape components things can spawn into
+	UPROPERTY()
+	TArray<TObjectPtr<const UShapeComponent>> SpawnableShapes;
 };

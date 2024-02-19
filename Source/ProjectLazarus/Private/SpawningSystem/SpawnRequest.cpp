@@ -1,30 +1,53 @@
 #include "SpawnRequest.h"
 #include "SpawnerComponent.h"
 #include "Spawnable.h"
+#include "SpawnerWorldSubSystem.h"
 
-FSpawnRequest::FSpawnRequest(const TSubclassOf<USpawnable> Spawnable)
+FSpawnRequest::FSpawnRequest(
+	const TSubclassOf<USpawnable>& InSpawnable,
+	const FTransform& InSpawnTransform,
+	const FActorSpawnParameters& InSpawnParameters,
+	const bool InbRecordSpawnData,
+	const bool InbTryToAdjustForEncroachingGeometry)
 {
-	ActorClassToSpawn = Spawnable->GetDefaultObject<USpawnable>()->GetSpawnableClass();
+	Spawnable = InSpawnable;
+	SpawnTransform = InSpawnTransform;
+	SpawnParameters = InSpawnParameters;
+	bRecordSpawnData = InbRecordSpawnData;
+	bTryToAdjustForEncroachingGeometry = InbTryToAdjustForEncroachingGeometry;
 }
 
-FSpawnRequest::FSpawnRequest(const TSubclassOf<AActor> Class)
+FSpawnRequest::FSpawnRequest(const USpawnerComponent* SpawnerComponent, const TSubclassOf<USpawnable> InSpawnable)
 {
-	ActorClassToSpawn = Class;
-}
-
-FSpawnRequest::FSpawnRequest(const USpawnerComponent* SpawnerComponent)
-{
-	if (!ensure(IsValid(SpawnerComponent)) || !ensure(IsValid(SpawnerComponent->Spawnable)))
+	if (!ensureAlways(IsValid(SpawnerComponent)))
 	{
 		return;
 	}
 	
-	ActorClassToSpawn = SpawnerComponent->Spawnable->GetDefaultObject<USpawnable>()->GetSpawnableClass();
-	SpawnTransform = SpawnerComponent->GetComponentTransform();
+	bTryToAdjustForEncroachingGeometry = SpawnerComponent->bTryToAdjustForEncroachingGeometry;
+	Instigator = SpawnerComponent->GetOwner();
+	Spawnable = InSpawnable;
+
+	if (SpawnerComponent->bUseSpawnableShapes && SpawnerComponent->HasSpawnableShapes())
+	{
+		const USpawningBoxShapeComponent* RandShape = USpawnerWorldSubSystem::GetRandomSpawningShapeComponentOnActor(
+				SpawnerComponent->GetOwner(),
+				Spawnable->GetDefaultObject<USpawnable>());
+
+		if (IsValid(RandShape))
+		{
+			const FVector RandPointInShape = RandShape->GetRandomPointInShapeComponent(SpawnerComponent->bTryFindSurfaceToPlace);
+			SpawnTransform.SetLocation(RandPointInShape);
+		}
+	}
+	else
+	{
+		SpawnTransform = SpawnerComponent->GetComponentTransform();
+	}
 }
 
 const FString FSpawnRequest::ToString() const
 {
-	FString ReturnString = GetNameSafe(ActorClassToSpawn);
+	FString ReturnString = GetNameSafe(Spawnable);
 	return ReturnString;
 }

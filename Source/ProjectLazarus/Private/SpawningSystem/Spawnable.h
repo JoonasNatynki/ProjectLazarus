@@ -1,8 +1,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "SpawnableProperty.h"
 #include "Spawnable.generated.h"
+
+class USpawnableProperty;
 
 UCLASS(Blueprintable, Abstract)
 class USpawnable : public UObject
@@ -11,11 +13,23 @@ class USpawnable : public UObject
 
 public:
 	virtual const TSubclassOf<AActor> GetSpawnableClass() const;
-	
+	template<class T> const T* FindSpawnProperty() const;
+
 private:
 	UPROPERTY(Category = "Spawnable", EditDefaultsOnly)
 	TSubclassOf<AActor>  SpawnableClass;
 
 	UPROPERTY(Category = "Spawnable", EditDefaultsOnly)
 	FName SpawnableName;
+
+	UPROPERTY(Category = "Spawnable", Instanced, EditDefaultsOnly)
+	TArray<TObjectPtr<USpawnableProperty>> SpawnableProperties;
+};
+
+template <class T> const T* USpawnable::FindSpawnProperty() const
+{
+	return Cast<T>(*SpawnableProperties.FindByPredicate([](const TObjectPtr<USpawnableProperty> Prop)
+	{
+		return Prop->IsA(T::StaticClass());
+	}));
 };
