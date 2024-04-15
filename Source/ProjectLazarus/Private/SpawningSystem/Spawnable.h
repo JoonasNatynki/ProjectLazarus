@@ -17,9 +17,6 @@ public:
 
 private:
 	UPROPERTY(Category = "Spawnable", EditDefaultsOnly)
-	TSubclassOf<AActor>  SpawnableClass;
-
-	UPROPERTY(Category = "Spawnable", EditDefaultsOnly)
 	FName SpawnableName;
 
 	UPROPERTY(Category = "Spawnable", Instanced, EditDefaultsOnly)

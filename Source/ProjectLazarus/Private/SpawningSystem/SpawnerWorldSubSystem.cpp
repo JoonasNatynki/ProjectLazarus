@@ -27,7 +27,7 @@ USpawningBoxShapeComponent* USpawnerWorldSubSystem::GetRandomSpawningShapeCompon
 	// If Spawnable is given, prune out invalid shapes for the spawnable
 	if (IsValid(Spawnable))
 	{
-		if (const USpawnableShapeGameplayTagRequirement* Prop = Spawnable->FindSpawnProperty<USpawnableShapeGameplayTagRequirement>())
+		if (const USpawnerGameplayTagRequirement* Prop = Spawnable->FindSpawnProperty<USpawnerGameplayTagRequirement>())
 		{
 			Shapes = Shapes.FilterByPredicate([Prop](const USpawningBoxShapeComponent* Comp)
 			{

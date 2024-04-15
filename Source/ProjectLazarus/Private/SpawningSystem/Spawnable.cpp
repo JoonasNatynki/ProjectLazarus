@@ -2,5 +2,5 @@
 
 const TSubclassOf<AActor> USpawnable::GetSpawnableClass() const
 {
-	return SpawnableClass;
+	return nullptr;
 }

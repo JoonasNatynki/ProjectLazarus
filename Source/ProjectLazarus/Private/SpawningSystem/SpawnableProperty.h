@@ -9,8 +9,9 @@ class USpawnableProperty : public UObject
 	GENERATED_BODY()
 };
 
+// Gameplay tag requirements for various spawners and their components
 UCLASS(DefaultToInstanced, EditInlineNew)
-class USpawnableShapeGameplayTagRequirement : public USpawnableProperty
+class USpawnerGameplayTagRequirement : public USpawnableProperty
 {
 	GENERATED_BODY()
 
