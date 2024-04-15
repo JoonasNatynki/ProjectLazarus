@@ -32,7 +32,8 @@ struct FSpawnRequest
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient)
 	bool bRecordSpawnData = true;
-	
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient)
 	bool bTryToAdjustForEncroachingGeometry = false;
 
 	const FString ToString() const;

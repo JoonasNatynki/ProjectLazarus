@@ -14,7 +14,7 @@ bool USpawnerWorldSubSystem::Spawn(const FSpawnRequest& SpawnRequest) const
 }
 
 USpawningBoxShapeComponent* USpawnerWorldSubSystem::GetRandomSpawningShapeComponentOnActor(
-	const AActor* ActorWithSpawningShapes, const USpawnable* Spawnable)
+	const AActor* ActorWithSpawningShapes, const USpawnable* SpawnableContext)
 {
 	if (!ensure(IsValid(ActorWithSpawningShapes)))
 	{
@@ -25,9 +25,9 @@ USpawningBoxShapeComponent* USpawnerWorldSubSystem::GetRandomSpawningShapeCompon
 	ActorWithSpawningShapes->GetComponents<USpawningBoxShapeComponent>(Shapes);
 
 	// If Spawnable is given, prune out invalid shapes for the spawnable
-	if (IsValid(Spawnable))
+	if (IsValid(SpawnableContext))
 	{
-		if (const USpawnerGameplayTagRequirement* Prop = Spawnable->FindSpawnProperty<USpawnerGameplayTagRequirement>())
+		if (const USpawnerGameplayTagRequirement* Prop = SpawnableContext->FindSpawnProperty<USpawnerGameplayTagRequirement>())
 		{
 			Shapes = Shapes.FilterByPredicate([Prop](const USpawningBoxShapeComponent* Comp)
 			{

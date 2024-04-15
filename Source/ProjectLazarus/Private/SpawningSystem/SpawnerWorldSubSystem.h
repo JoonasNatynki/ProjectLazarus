@@ -23,7 +23,7 @@ public:
 	// Get random spawning shape and optionally make sure it is valid for the spawnable
 	static USpawningBoxShapeComponent* GetRandomSpawningShapeComponentOnActor(
 		const AActor* ActorWithSpawningShapes,
-		const USpawnable* Spawnable = nullptr);
+		const USpawnable* SpawnableContext = nullptr);
 	
 private:
 	const FSpawnData ProcessSpawnRequest(const FSpawnRequest& SpawnRequest) const;

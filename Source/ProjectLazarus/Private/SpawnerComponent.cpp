@@ -1,6 +1,4 @@
 #include "SpawnerComponent.h"
-
-#include "IMovieSceneObjectSpawner.h"
 #include "Components/ShapeComponent.h"
 #include "SpawningSystem/SpawnerWorldSubSystem.h"
 #include "SpawningSystem/SpawnRequest.h"

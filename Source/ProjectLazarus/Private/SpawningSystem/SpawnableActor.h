@@ -4,7 +4,7 @@
 #include "SpawningSystem/Spawnable.h"
 #include "SpawnableActor.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class USpawnableActor : public USpawnable
 {
 	GENERATED_BODY()

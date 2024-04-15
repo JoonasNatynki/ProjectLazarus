@@ -21,5 +21,7 @@ public:
 
 	virtual const FGameplayTag GetSpawnableTag() const PURE_VIRTUAL(,return FGameplayTag(););
 
-	const FVector GetRandomPointInShapeComponent(const bool bTryFindSurface = false) const; 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	const FVector GetRandomPointInShapeComponent(const bool bTryFindSurface = false) const;
+	const FVector GetRandomPointInShapeComponent_Implementation(const bool bTryFindSurface = false) const;
 };

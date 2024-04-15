@@ -2,7 +2,7 @@
 #include "UE4Helpers.h"
 #include "Components/ShapeComponent.h"
 
-const FVector ISpawningShapeIF::GetRandomPointInShapeComponent(const bool bTryFindSurface) const
+const FVector ISpawningShapeIF::GetRandomPointInShapeComponent_Implementation(const bool bTryFindSurface) const
 {
 	const FVector RandLocationInShape = UE4CodeHelpers::FindRandomPointInsideShapeComponent(Cast<UShapeComponent>(this));
 
