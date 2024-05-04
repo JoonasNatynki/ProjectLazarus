@@ -17,11 +17,20 @@ void USpawnerComponent::SpawnSpawnable(const TSubclassOf<USpawnable> Spawnable)
 	}
 }
 
-void USpawnerComponent::Spawn(const FSpawnRequest SpawnRequest) const
+void USpawnerComponent::PushSpawnRequest(const FSpawnRequest SpawnRequest) const
 {
 	if (const USpawnerWorldSubSystem* SWSS = GetWorld()->GetSubsystem<USpawnerWorldSubSystem>())
 	{
 		SWSS->Spawn(SpawnRequest);
+	}
+}
+
+void USpawnerComponent::Spawn()
+{
+	if (const USpawnerWorldSubSystem* SWSS = GetWorld()->GetSubsystem<USpawnerWorldSubSystem>())
+	{
+		const FSpawnRequest Request(this);
+		SWSS->Spawn(Request);
 	}
 }
 

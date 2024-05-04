@@ -58,7 +58,7 @@ const FSpawnData USpawnerWorldSubSystem::ProcessSpawnRequest(const FSpawnRequest
 	if (!IsValid(SpawnRequest.Spawnable))
 	{
 		UE_LOG(LogSpawnerWorldSubSystem, Warning, TEXT("A spawn request was processed that had no spawnable assigned! Instigator = (%s)"),
-			*GetNameSafe(SpawnRequest.Instigator.Get()));
+			*GetNameSafe(SpawnRequest.GetInstigator()));
 		
 		return FSpawnData();
 	}

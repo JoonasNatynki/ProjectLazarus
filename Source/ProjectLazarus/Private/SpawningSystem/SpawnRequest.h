@@ -21,6 +21,7 @@ struct FSpawnRequest
 		const bool InbTryToAdjustForEncroachingGeometry = false
 		);
 	explicit FSpawnRequest(const USpawnerComponent* SpawnerComponent, const TSubclassOf<USpawnable> InSpawnable);
+	explicit FSpawnRequest(const USpawnerComponent* SpawnerComponent);
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient)
 	TSubclassOf<USpawnable> Spawnable;
@@ -37,6 +38,11 @@ struct FSpawnRequest
 	bool bTryToAdjustForEncroachingGeometry = false;
 
 	const FString ToString() const;
+
+	UObject* GetInstigator() const;
+	
+private:
+	void InitializeFromSpawner(const USpawnerComponent* SpawnerComponent);
 	
 	TWeakObjectPtr<UObject> Instigator = nullptr;
 };

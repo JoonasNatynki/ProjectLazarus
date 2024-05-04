@@ -1,6 +1,7 @@
 #include "SpawnRequest.h"
 #include "SpawnerComponent.h"
 #include "Spawnable.h"
+#include "SpawnablePoolComponent.h"
 #include "SpawnerWorldSubSystem.h"
 
 FSpawnRequest::FSpawnRequest(
@@ -23,20 +24,51 @@ FSpawnRequest::FSpawnRequest(const USpawnerComponent* SpawnerComponent, const TS
 	{
 		return;
 	}
-	
+
+	Spawnable = InSpawnable;
+	InitializeFromSpawner(SpawnerComponent);
+}
+
+FSpawnRequest::FSpawnRequest(const USpawnerComponent* SpawnerComponent)
+{
+	if (!ensureAlways(IsValid(SpawnerComponent)))
+	{
+		return;
+	}
+
+	if (const USpawnablePoolComponent* SpawnablePoolComponent =
+		SpawnerComponent->GetOwner()->FindComponentByClass<USpawnablePoolComponent>())
+	{
+		Spawnable = SpawnablePoolComponent->GetRandomValidSpawnableFromPool();
+	}
+	else
+	{
+		ensureAlwaysMsgf(false, TEXT("Could not resolve a spawnable for spawn request."));
+		return;
+	}
+
+	InitializeFromSpawner(SpawnerComponent);
+}
+
+void FSpawnRequest::InitializeFromSpawner(const USpawnerComponent* SpawnerComponent)
+{
+	if (!ensureAlways(IsValid(SpawnerComponent)))
+	{
+		return;
+	}
+
 	bTryToAdjustForEncroachingGeometry = SpawnerComponent->bTryToAdjustForEncroachingGeometry;
 	Instigator = SpawnerComponent->GetOwner();
-	Spawnable = InSpawnable;
 
 	if (SpawnerComponent->bUseSpawnableShapes && SpawnerComponent->HasSpawnableShapes())
 	{
 		const USpawningBoxShapeComponent* RandShape = USpawnerWorldSubSystem::GetRandomSpawningShapeComponentOnActor(
-				SpawnerComponent->GetOwner(),
-				Spawnable->GetDefaultObject<USpawnable>());
+			SpawnerComponent->GetOwner(),
+			Spawnable->GetDefaultObject<USpawnable>());
 
 		if (IsValid(RandShape))
 		{
-			const FVector RandPointInShape = RandShape->GetRandomPointInShapeComponent(SpawnerComponent->bTryFindSurfaceToPlace);
+			const FVector RandPointInShape = RandShape->Execute_GetRandomPointInShapeComponent(RandShape, SpawnerComponent->bTryFindSurfaceToPlace);
 			SpawnTransform.SetLocation(RandPointInShape);
 		}
 	}
@@ -46,8 +78,14 @@ FSpawnRequest::FSpawnRequest(const USpawnerComponent* SpawnerComponent, const TS
 	}
 }
 
+
 const FString FSpawnRequest::ToString() const
 {
 	FString ReturnString = GetNameSafe(Spawnable);
 	return ReturnString;
+}
+
+UObject* FSpawnRequest::GetInstigator() const
+{
+	return Instigator.Get();
 }

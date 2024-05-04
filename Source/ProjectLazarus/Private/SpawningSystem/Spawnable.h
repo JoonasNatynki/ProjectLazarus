@@ -25,8 +25,20 @@ private:
 
 template <class T> const T* USpawnable::FindSpawnProperty() const
 {
-	return Cast<T>(*SpawnableProperties.FindByPredicate([](const TObjectPtr<USpawnableProperty> Prop)
+	const TObjectPtr<USpawnableProperty>* FoundProp = SpawnableProperties.FindByPredicate([](const TObjectPtr<USpawnableProperty>& Prop)
 	{
+		if (!IsValid(Prop))
+		{
+			return false;
+		}
+
 		return Prop->IsA(T::StaticClass());
-	}));
+	});
+
+	if (!FoundProp)
+	{
+		return nullptr;
+	}
+	
+	return CastChecked<T>(*FoundProp);
 };

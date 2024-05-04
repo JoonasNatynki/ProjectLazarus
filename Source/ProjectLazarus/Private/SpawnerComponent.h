@@ -32,7 +32,10 @@ public:
 	void SpawnSpawnable(const TSubclassOf<USpawnable> Spawnable);
 	
 	UFUNCTION(Category = "Spawner", BlueprintCallable)
-	void Spawn(const FSpawnRequest SpawnRequest) const;
+	void PushSpawnRequest(const FSpawnRequest SpawnRequest) const;
+
+	UFUNCTION(Category = "Spawner", BlueprintCallable)
+	void Spawn();
 
 	// Use this to add custom shape components for the shape spawning
 	UFUNCTION(Category = "Spawner", BlueprintCallable)
