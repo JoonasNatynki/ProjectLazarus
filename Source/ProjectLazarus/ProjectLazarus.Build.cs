@@ -14,7 +14,7 @@ public class ProjectLazarus : ModuleRules
 		{
 			"UE4Helpers",
 			"GameplayTags",
-			"FocusComponent",
+			"FocusingComponent",
 			"Spawnables"
 		});
 
