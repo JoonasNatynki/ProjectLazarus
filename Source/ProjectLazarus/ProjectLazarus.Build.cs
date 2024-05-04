@@ -10,7 +10,13 @@ public class ProjectLazarus : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "UE4Helpers", "GameplayTags", "FocusComponent" });
+		PrivateDependencyModuleNames.AddRange(new string[]
+		{
+			"UE4Helpers",
+			"GameplayTags",
+			"FocusComponent",
+			"Spawnables"
+		});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
