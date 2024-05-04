@@ -4,6 +4,9 @@
 USpawningBoxShapeComponent::USpawningBoxShapeComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	bWantsInitializeComponent = true;
+	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
+	SetGenerateOverlapEvents(false);
 }
 
 void USpawningBoxShapeComponent::InitializeComponent()
